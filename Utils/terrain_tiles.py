@@ -5,7 +5,10 @@
     Author: Xiaodong Qin
     Email: michael.chin@sydney.edu.au
     
-    The 'create_tiles" function generates terrain tiles from elevation dataset. 
+	Get latest version and submit bug report at 
+	GitHub: https://github.com/GPlates/Portal/blob/master/Utils/terrain_tiles.py
+	
+    The 'create_tiles" function generates terrain tiles from an elevation dataset. 
     
     Parameters:
         input_file: the full path of the elevation dataset
@@ -47,10 +50,8 @@ def create_tiles(input_file, output_dir, max_level=7):
     band = dataset.GetRasterBand(1)
 
     for level in range(max_level+1):
-
         tiles = cut_tiles(band, level)
         print tiles.shape
-
         for i in range(tiles.shape[0]):
             for j in range(tiles.shape[1]):
                 filename=output_dir+'/{0}/{1}/{2}.terrain'.format(level,i,j)

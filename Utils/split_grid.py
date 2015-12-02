@@ -5,13 +5,16 @@
     Author: Xiaodong Qin
     Email: michael.chin@sydney.edu.au
     
+	Get latest version and submit bug report at 
+	GitHub: https://github.com/GPlates/Portal/blob/master/Utils/split_grid.py
+	
     Some grid files are very large, e.g. the srtm15_plus grid is more than 15GB.
     Because of the limit of computer architecture and hardware, sometimes, it is not feasible
     to process a file so large.
     The solution is to divide and conquer.  
     This Python function splits a large grid file into smaller pieces so that they can be processed separately.
     Later on, the small pieces are bound together again to create a virtual raster with 'gdalbuildvrt'.
-    The gdal_translate command is called to do the actural cutting. The gdal_translate command must be in the system path.
+    The gdal_translate command, which must be in the system path, is called to do the actural cutting. 
     
     Parameters:
         input_file: the full path of the grid file to be split
@@ -20,7 +23,8 @@
                     If the folder does not exist, a new folder will be created. So make sure the program
                     has the 'write' permission.
         factor:     the factor parameter determines the size of the pieces.The input file will be split into
-                    factor*factor pieces. The default value is 10 which will split the grid file into 100 pieces evenly.
+                    factor*factor pieces. The default value is 10 which will split the grid file into 100 pieces evenly and
+					each piece will be georeferenced.
     Return:        
             0 if the function is successful
             -1 if error occurs

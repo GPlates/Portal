@@ -6,22 +6,27 @@
     Author: Xiaodong Qin
     Email: michael.chin@sydney.edu.au
 
+	Get latest version and submit bug report at 
+	GitHub: https://github.com/GPlates/Portal/blob/master/Utils/histeq.py
+	
     This function returns normalized histogram equalized data.
     
     Parameters:
-       im: two-dimensional numpy array; the data need to be histogram equalized
+       im:       two-dimensional numpy array
        num_bins: the number of bins
-       vmin: the minimun value that will be used in calculating histogram
-       vmax: the maximun value that will be used in calculating histogram
+       vmin:     the minimun value that will be used in calculating histogram
+       vmax:     the maximun value that will be used in calculating histogram
     Returns:
        new_im: the histogram equalized and normalized data
        cdf : cumulative distribution function
+	   
+	References:
     https://en.wikipedia.org/wiki/Histogram_equalization
 '''
 
 import numpy
 
-def histogram_equalization(im, num_bins=1024, vmin=numpy.nan, vmax=numpy.nan):
+def hiseq(im, num_bins=1024, vmin=numpy.nan, vmax=numpy.nan):
     if numpy.isnan(vmin):
         min_value=numpy.nanmin(im)
     else:
