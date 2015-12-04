@@ -23,7 +23,6 @@
 	References:
     https://en.wikipedia.org/wiki/Histogram_equalization
 '''
-
 import numpy
 
 def hiseq(im, num_bins=1024, vmin=numpy.nan, vmax=numpy.nan):
