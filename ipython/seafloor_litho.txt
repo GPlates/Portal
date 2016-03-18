@@ -1,0 +1,23 @@
+cp -r computers/ ~/ipython_home/
+cp seafloor_lith_data_all_features.csv ~/ipython_home/
+python3.4 sealitho_SVCMA_Parallel.py
+
+https://github.com/nicta/revrand
+unzip revrand-master.zip
+cp -rf revrand/ ~/ipython_home/
+
+apt-get install python3-pip
+pip3 install scikit-learn
+apt-get install python3-pandas
+https://github.com/nicta/revrand
+sudo pip3 install parmap
+
+sudo pip3 install --upgrade scipy
+sudo pip3 install six
+sudo pip3 install --upgrade six
+
+
+tar -zxf nlopt-2.4.2.tar.gz
+./configure --enable-shared PYTHON=/usr/bin/python3
+sudo make install
+export PYTHONPATH=/usr/local/lib/python3.4/site-packages/
