@@ -1,4 +1,20 @@
-The raster geology/cgmw_gplates/cgmw_2010_3rd_ed_gplates.png
+The raster being used (cgmw_2010_3rd_ed_gplates_clipped_edge.png modified by Sabin) comes from http://ccgm.org/. The original one is cgmw_2010_3rd_ed_gplates.png.
+
+The reference info is:
+Author: Bouysse, Philippe and colleagues at Commission for the Geological Map of the World
+Year: 2010
+Title: Geological map of the world: scale 1: 50 000 000
+Publisher: CGMW
+
+The age grid is agegrid_for_cesium_20160322.nc.
+
+The Global_EarthByte_GPlates_PresentDay_StaticPlatePolygons_2013.2_Modified_20141204.gpmlz and Global_EarthByte_TPW_CK95G94_2013.2_Rigid_Gibbons_ed.rot are used.
+
+The "Screen Shot 2016-03-10 at 12.32.45 PM.png" and "Screen Shot 2016-03-10 at 12.33.10 PM.png" contains some detailed information about the raster.
+
+The "usgs_legend.png" and "gplates_portal_USGS_hires.png" are not used.
+
+The files can be found in workspaces/Geology.
 
 How to use imagemagick to replace transparent with grey 
     convert test.png -background grey -alpha remove test_1.png
@@ -12,13 +28,14 @@ Cut tiles for the present day image
     Edit static/js/cesium/Viewport.js to add the new view
 
 Raster Reconstruction
-    Use agegrid geology/Gibbons_erode_model/agegrid_for_cesium_20141201.nc
+    Use agegrid geology/agegrid_for_cesium_20160322.nc
     Use static polygons geology/Gibbons_erode_model/Global_EarthByte_GPlates_PresentDay_StaticPlatePolygons_2013.2_Modified_20141204.gpmlz
     Use rotation geology/Gibbons_erode_model/Global_EarthByte_TPW_CK95G94_2013.2_Rigid_Gibbons_ed.rot
+	Load into GPlates, reconstruct and export.
 
     Use imagemagick to replace transparent with grey in reconstructed rasters
         for f in ./*.png ;do convert $f -background grey -alpha remove $f.new; done
-        remove *.png
+        rm *.png
         find -type f -name '*.new' -print0|while read -d $'\0' f; do mv "$f" "${f%.new}"; done
 
     Use python script to cut tiles
