@@ -20,12 +20,22 @@ How to use imagemagick to replace transparent with grey
     convert test.png -background grey -alpha remove test_1.png
 
 Cut tiles for the present day image
-    first, add georeference to the image
+    Hill shade
+		create hill shade layer
+			gdaldem hillshade topo15_25480x12742.tif hills.tif -z 30 -s 111120
+		change gamma value of hill shade layer
+			convert -gamma .5 hills.tif hills_gamma.tif
+		merge hill shade layer with the image
+			convert cgmw_2010_3rd_ed_gplates_clipped_edge.png hills_gamma.tif -compose Overlay -composite output.tif
+	
+	first, add georeference to the image
         gdal_translate -a_ullr -180 90 180 -90 cgmw_2010_3rd_ed_gplates.png cgmw_2010_3rd_ed_gplates_ref.png
     then, cut the tiles
         gdal2tiles.py --profile=geodetic --zoom='0-6' -s EPSG:4326 --no-kml cgmw_2010_3rd_ed_gplates_ref.png  tiles
     move the tiles to gplates portal data directory /mnt/data/raster_tiles/geology
     Edit static/js/cesium/Viewport.js to add the new view
+	
+	
 
 Raster Reconstruction
     Use agegrid geology/agegrid_for_cesium_20160322.nc
