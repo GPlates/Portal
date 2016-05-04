@@ -523,8 +523,8 @@ class FeatureEvaluator():
         pool = Pool(processes=(multiprocessing.cpu_count()-1))
         rets = pool.map_async(runEvaluation, zip([self]*iterationNum, range(iterationNum)))         
         while not rets.ready():
-            print('***',end='|')
-            time.sleep(5)
+            print('*',end='')
+            time.sleep(10)
             
         #print('results: {}'.format(rets.get()))
         self.results.extend(rets.get())
