@@ -1,5 +1,5 @@
 ##
-# Image for pygplates with nlopt
+# Image for pygplates Jupyter server
 #
 
 FROM ubuntu:14.04
@@ -18,7 +18,8 @@ RUN apt-get install -y libqwt-dev
 RUN apt-get install -y libxrender-dev libice-dev libsm-dev libfreetype6-dev libfontconfig1-dev
 
 # install wget to enable the pygplates source code to be downloaded from sourceforge
-RUN apt-get install -y wget
+RUN apt-get update
+RUN apt-get install -y wget git
 
 # use wget to get the correct pygplates package from sourceforge
 RUN wget http://sourceforge.net/projects/gplates/files/pygplates/beta-revision-12/pygplates-ubuntu-trusty_1.5_1_amd64.deb
@@ -34,11 +35,15 @@ RUN pip install ipyparallel
 RUN apt-get install -y python-mpltoolkits.basemap
 
 # Install non-linear optimisation package, with options to import into python
-RUN wget http://ab-initio.mit.edu/nlopt/nlopt-2.4.2.tar.gz
-RUN tar -xvzf nlopt-2.4.2.tar.gz
-RUN cd nlopt-2.4.2 && ./configure --enable-shared && make && make install
+#RUN wget http://ab-initio.mit.edu/nlopt/nlopt-2.4.2.tar.gz
+#RUN tar -xvzf nlopt-2.4.2.tar.gz
+#RUN cd nlopt-2.4.2 && ./configure --enable-shared && make && make install
 
 # Set python path to find pygplates and nlopt
+
+RUN git clone https://github.com/tonysyu/mpltools.git /mpltools
+RUN cd /mpltools && python setup.py install
+
 RUN export LD_LIBRARY_PATH=/usr/local/lib
 
 RUN useradd -ms /bin/bash ipython 
@@ -51,9 +56,18 @@ WORKDIR /home/$NB_USER/work
 COPY jupyter_notebook_config.py /home/$NB_USER/.jupyter/
 RUN chown -R $NB_USER:root /home/$NB_USER/.jupyter
 
-USER ipython
+# Add Tini
+ENV TINI_VERSION v0.9.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+
+CMD ["/home/ipython/work/ipython_notebook.sh"]
 
 Env PYTHONPATH ${PYTHONPATH}:/usr/lib:/usr/lib/pygplates/revision12/
-ADD ipython_notebook.sh .
+ADD . /home/ipython/work/
 
+RUN chmod +x /home/$NB_USER/work/ipython_notebook.sh
+RUN chown -R $NB_USER:root /home/$NB_USER/work
 
+USER ipython
