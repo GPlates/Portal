@@ -7,7 +7,7 @@ build docker image:
 run docker container and login as root:
 	docker run -t -i --user root -v /mnt/data/ipython_notebooks/sandbox:/home/ipython/work/sandbox pygplates
 run ipython notebook:
-	docker run -d -p 8888:8887 -v /mnt/data/ipython_notebooks/sandbox:/home/ipython/work/sandbox pygplates /bin/bash ipython_notebook.sh
+	docker run -d -p 8888:8887 --restart always --cpuset-cpus="1" -m 1G -v /mnt/data/ipython_notebooks/sandbox:/home/ipython/work/sandbox pygplates /bin/bash ipython_notebook.sh
 
 docker login --username=yourhubusername --email=youremail@company.com
 docker push gplates/pygplates-jupyter
