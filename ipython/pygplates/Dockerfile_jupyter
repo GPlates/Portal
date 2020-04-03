@@ -1,0 +1,19 @@
+FROM gplates/pygplates-py3-base
+
+RUN apt-get update
+RUN apt-get install -y python3-pip
+RUN pip3 install jupyter
+
+# Add Tini
+ENV TINI_VERSION v0.9.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+
+EXPOSE 8888
+RUN mkdir /workspace
+WORKDIR /workspace
+
+CMD ["jupyter", "notebook", "--allow-root", "--ip=0.0.0.0", "--no-browser"]
+
+
